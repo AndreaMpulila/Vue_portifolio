@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -63,17 +64,35 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Project $project)
     {
-        //
+        $skills = Skill::all();
+        return Inertia::render('Projects/Edit',compact('project','skills'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        $image = $project->image;
+        $request->validate([
+            'name'=>['required','min:3']
+        ]);
+        if($request->hasFile('image')){
+            Storage::delete($image);
+            $image = $request->file('image')->store('projects') ;
+        }
+
+        $project->update([
+            'name'=>$request->name,
+            'image'=>$image,
+            'project_url'=>$request->project_url,
+            'skill_id'=>$request->skill_id
+        ]);
+        return Redirect::route('projects.index');
+        
     }
 
     /**
