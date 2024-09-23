@@ -22,7 +22,7 @@
                     autocomplete="name"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-2" :message="$page.props.errors.name" />
             </div>
             <div>
                 <InputLabel for="image" value="Image" />
@@ -34,14 +34,14 @@
                     @input="form.image=$event.target.files[0]"
                 />
 
-                <InputError class="mt-2" :message="form.errors.image" />
+                <InputError class="mt-2" :message="$page.props.errors.image" />
             </div>   
             
             <div class="flex items-center justify-end mt-4">
                 
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Submit
+                    Update
                 </PrimaryButton>
             </div>
         </form>

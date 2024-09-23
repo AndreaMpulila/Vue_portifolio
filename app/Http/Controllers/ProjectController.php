@@ -48,18 +48,12 @@ class ProjectController extends Controller
                 'skill_id'=>$request->skill_id,
                 'project_url'=>$request->project_url
             ]);
-            return Redirect::route('projects.index');
+            return Redirect::route('projects.index')->with('message','Project added sucessfuly');
         }
         return Redirect::back();
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+ 
 
     /**
      * Show the form for editing the specified resource.
@@ -78,7 +72,8 @@ class ProjectController extends Controller
     {
         $image = $project->image;
         $request->validate([
-            'name'=>['required','min:3']
+            'name'=>['required','min:3'],
+            'skill_id'=>['required']
         ]);
         if($request->hasFile('image')){
             Storage::delete($image);
@@ -91,15 +86,17 @@ class ProjectController extends Controller
             'project_url'=>$request->project_url,
             'skill_id'=>$request->skill_id
         ]);
-        return Redirect::route('projects.index');
+        return Redirect::route('projects.index')->with('message','Project updated sucessfuly');;
         
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Project $project)
     {
-        //
+        Storage::delete($project->image);
+        $project->delete();
+        return Redirect::back()->with('message','Project deleted sucessfuly');;
     }
 }

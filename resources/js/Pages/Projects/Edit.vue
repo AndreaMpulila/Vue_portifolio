@@ -15,6 +15,7 @@
                 <select v-model="form.skill_id" id="skill_id" name="skill_id" class="mt-1 w-full rounded text-base ">
                   <option v-for="skill in skills" :key="skill.id" :value="skill.id"> {{ skill.name }}</option>
                 </select>
+                <InputError class="mt-2" :message="$page.props.errors.skill_id" />
               </div>
             <div>
                 <InputLabel for="name" value="Name" />
@@ -27,7 +28,7 @@
                     autocomplete="name"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError class="mt-2" :message="$page.props.errors.name" />
             </div>
 
             <div>
@@ -41,7 +42,7 @@
                     autocomplete="project_url"
                 />
 
-                <InputError class="mt-2" :message="form.errors.project_url" />
+                <InputError class="mt-2" :message="$page.props.errors.project_url" />
             </div>
             <div>
                 <InputLabel for="image" value="Image" />
@@ -53,14 +54,14 @@
                     @input="form.image=$event.target.files[0]"
                 />
 
-                <InputError class="mt-2" :message="form.errors.image" />
+                <InputError class="mt-2" :message="$page.props.errors.image" />
             </div>   
             
             <div class="flex items-center justify-end mt-4">
                 
 
                 <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Submit
+                    Update
                 </PrimaryButton>
             </div>
         </form>
